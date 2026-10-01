@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using System.Reflection.Emit;
 
-int option, minNumber, maxNumber, awnser, dieNumber1, dieNumber2, balance, questionAwnser, withdrawNumber;
+int option, minNumber, maxNumber, awnser, dieNumber1, dieNumber2, balance, questionAwnser, withdrawNumber, depositNumber, IRLmoney;
 bool done;
 Random generator = new Random();
 
@@ -14,25 +14,38 @@ if (option == 1)
     minNumber = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("Great! Now type in a number greater than the previous");
     maxNumber = Convert.ToInt32(Console.ReadLine());
-    done = false;
-    while (!done)
+    if (minNumber < maxNumber)
     {
-        Console.WriteLine("Okay, now type in a number greater than number 1 but lower than number 2");
-        awnser = Convert.ToInt32(Console.ReadLine());
+        done = false;
+        while (!done)
+        {
+            Console.WriteLine("Okay, now type in a number greater than number 1 but lower than number 2");
+            awnser = Convert.ToInt32(Console.ReadLine());
 
-        if (awnser > minNumber && awnser < maxNumber)
+            if (awnser > minNumber && awnser < maxNumber)
             {
-               done = true;
+                Console.WriteLine("Yep you can count!");
+                done = true;
             }
+            else
+            {
+                Console.WriteLine("nope, try again");
+            }
+        }
+    }
+    else
+    { 
+        Console.WriteLine("You cant count."); 
     }
 }
 if (option == 2)
 {
     balance = 150;
+    IRLmoney = 0;
     done = false;
     while (!done)
     {
-        Console.WriteLine($"What transation would you like to do? 1 - Withdraw, 2 - Deposit, 3 - bill payment or 4 - Quit? Current balance:{balance}");
+        Console.WriteLine($"What transation would you like to do? 1 - Withdraw, 2 - Deposit, or 3 - Quit? Current balance:{balance} & current money irl:{IRLmoney}");
         questionAwnser = Convert.ToInt32(Console.ReadLine());
 
         if (questionAwnser == 1)
@@ -50,14 +63,34 @@ if (option == 2)
             {
                 Console.WriteLine($"Okay, taking out {withdrawNumber} from your balance");
                 balance = (balance - withdrawNumber);
-                balance = (balance - 0.75);
+                IRLmoney = (withdrawNumber);
+                balance = (balance - 1);
             }
         }
 
         if (questionAwnser == 2)
         {
+            Console.WriteLine("type in a number you wish to deposit.");
+            depositNumber = Convert.ToInt32(Console.ReadLine());
 
+            if (depositNumber > IRLmoney)
+            {
+                Console.WriteLine("you dont have enough money.");
+            }
+            if (depositNumber <= IRLmoney)
+            {
+                Console.WriteLine($"Okay taking out {depositNumber}");
+                balance = (balance + depositNumber);
+                IRLmoney = (IRLmoney - depositNumber);
+                balance = (balance - 1);
+            }
         }
+        if (questionAwnser == 3)
+        {
+            Console.WriteLine("okay, bye!");
+            done = true;
+        }
+        
     }
 }
 if (option == 3)
@@ -87,7 +120,7 @@ if (option == 3)
     
     
 }
-else
+if (option < 3)
 {
-    Console.WriteLine("no");
+    Console.WriteLine("no (ignore this no if you picked 1, 2, or 3 person.)");
 }
